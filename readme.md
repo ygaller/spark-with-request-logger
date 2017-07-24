@@ -12,7 +12,7 @@ that supports logging of incoming requests using log4j.
 
 We'll start with a basic hello world instance of Spark
 
-~~~
+~~~java
 
 public class ApplicationMain {
 
@@ -28,7 +28,7 @@ public class ApplicationMain {
 
 First up, let's create the access logger. Given a log4j logger, we will want to log messages in a standard format. For this purpose, we can implement an instance of `AbstractNCSARequestLog` that takes our logger as an argument
 
-~~~
+~~~java
 
 public class RequestLogFactory {
 
@@ -59,7 +59,7 @@ public class RequestLogFactory {
 
 We can't just provide Spark with a server instance. Rather, we need to provide a factory that Spark will invoke when it decides to create the server. This factory can take the request log as an argument
 
-~~~
+~~~java
 
 public class EmbeddedJettyFactoryConstructor {
     AbstractNCSARequestLog requestLog;
@@ -94,7 +94,7 @@ The implementation here is identical to Spark's embedded Jetty with the addition
 
 Let's tie it together in a utility function that accepts our original log4j logger and overrides Spark's default Jetty implementation with ours
 
-~~~
+~~~java
 
 public class SparkUtils {
     public static void createServerWithRequestLog(Logger logger) {
@@ -112,7 +112,7 @@ public class SparkUtils {
 
 Now all that remains is to define the log4j logger and call the utility function in our main 
 
-~~~
+~~~java
 
     public static void main(String[] args) {
         Logger logger = Logger.getLogger(ApplicationMain.class);
@@ -127,6 +127,8 @@ Now all that remains is to define the log4j logger and call the utility function
 
 After we spin up our Spark instance and go to [http://localhost:4567/hello], we will see the following output in logs:
 
-`
+~~~console
+
 2017-07-24 21:29:52 INFO  ApplicationMain:25 - 0:0:0:0:0:0:0:1 - - [24/Jul/2017:18:29:52 +0000] "GET /hello HTTP/1.1" 200 5 
-`
+
+~~~
