@@ -1,4 +1,4 @@
-# Embedded Jetty with request logger
+# Spark with mbedded Jetty with request logger
 
 Create a Spark instance with an embedded Jetty server configuration with a log4j request logger
 
